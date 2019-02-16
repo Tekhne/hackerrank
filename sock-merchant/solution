@@ -6,20 +6,16 @@ import random
 import re
 import sys
 
-# Complete the sockMerchant function below.
-
 
 def sockMerchant(n, ar):
     count = 0
-    matches = set()
-
+    pairs = set()
     for num in ar:
-        if num in matches:
+        if num in pairs:
             count += 1
-            matches.discard(num)
+            pairs.discard(num)
         else:
-            matches.add(num)
-
+            pairs.add(num)
     return count
 
 
