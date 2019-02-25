@@ -1,0 +1,59 @@
+#!/usr/bin/env node
+'use strict';
+
+const fs = require('fs');
+
+process.stdin.resume();
+process.stdin.setEncoding('utf-8');
+
+let inputString = '';
+let currentLine = 0;
+
+process.stdin.on('data', inputStdin => {
+  inputString += inputStdin;
+});
+
+process.stdin.on('end', _ => {
+  inputString = inputString
+    .replace(/\s*$/, '')
+    .split('\n')
+    .map(str => str.replace(/\s*$/, ''));
+
+  main();
+});
+
+function readLine() {
+  return inputString[currentLine++];
+}
+
+function hourglassSum(arr) {
+  const hourglass = (a, i) => [
+    a[i],
+    a[i + 1],
+    a[i + 2],
+    a[i + 7],
+    a[i + 12],
+    a[i + 13],
+    a[i + 14]
+  ];
+  const sum = a => a.reduce((s, x) => s + x);
+  const corners = [0, 1, 2, 3, 6, 7, 8, 9, 12, 13, 14, 15, 18, 19, 20, 21];
+  const sums = a => corners.map(i => sum(hourglass(a, i)));
+  const flatten = a => a.reduce((xs, x) => xs.concat(x), []);
+  return Math.max(...sums(flatten(arr)));
+}
+
+function main() {
+  const ws = fs.createWriteStream(process.env.OUTPUT_PATH);
+  let arr = Array(6);
+
+  for (let i = 0; i < 6; i++) {
+    arr[i] = readLine()
+      .split(' ')
+      .map(arrTemp => parseInt(arrTemp, 10));
+  }
+
+  let result = hourglassSum(arr);
+  ws.write(result + '\n');
+  ws.end();
+}
