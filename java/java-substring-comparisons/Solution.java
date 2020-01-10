@@ -5,9 +5,6 @@ public class Solution {
         String smallest = "";
         String largest = "";
 
-        // Complete the function
-        // 'smallest' must be the lexicographically smallest substring of length 'k'
-        // 'largest' must be the lexicographically largest substring of length 'k'
         for (int i = 0; i <= (s.length() - k); i++) {
             String substring = s.substring(i, (i + k));
 
